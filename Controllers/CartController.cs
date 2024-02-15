@@ -67,6 +67,7 @@ namespace Bakery.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public IActionResult DecreaseCountByOne(int? cartItemId)
         {
             if (cartItemId == null)
@@ -85,12 +86,14 @@ namespace Bakery.Controllers
                 item.Count--;
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
             }
             else
             {
-                return Delete(item.Id);
+                // return Delete(item.Id);
+                Delete(item.Id);
             }
+            return NoContent();
         }
 
         public IActionResult Delete(int? cartItemId)

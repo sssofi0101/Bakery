@@ -5,6 +5,9 @@
 <html>
 <head>
     <title>Корзина</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script src="js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
 </head>
 <body>
     <h3>Корзина</h3>
@@ -19,7 +22,8 @@
             <td></td>
         </tr>
         <div id="cartItems">
-            @Html.Partial("CartItems")
+            @await Html.PartialAsync("CartItems")
+            @* @Html.Partial("CartItems") *@
         </div>
     </table>
     <a href="~/Home/Index">Перейти в каталог</a>
