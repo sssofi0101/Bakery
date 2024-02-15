@@ -64,7 +64,8 @@ namespace Bakery.Controllers
 
             item.Count++;
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return NoContent();
+            //return RedirectToAction("Index");
         }
 
         [HttpPost]

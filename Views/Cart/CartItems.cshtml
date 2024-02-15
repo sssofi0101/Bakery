@@ -20,6 +20,21 @@
             }
         })
     }
+    function onIncreaseCountByOneClick(url, cartItemId) {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: { cartItemId: cartItemId },
+            success: function () {
+                //$(`#subscribe-${subcribeToId}`).hide();
+                //$(`#unsubscribe-${subcribeToId}`).show();
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error("Error: " + error);
+            }
+        })
+    }
 </script>
 <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
 
@@ -40,18 +55,22 @@
 
             -->
 
-            <div id="cartItemId-@cartItem.Id" >
+            <div>
                 @* <button id="cartItemId"class="btn" onclick="onDecreaseCountByOneClick('@Url.Action("DecreaseCountByOne", "Cart" )', '@cartItem.Id' );">-</button> *@
-                <button id="cartItemId" class="btn" onclick="onDecreaseCountByOneClick('@Url.Action("DecreaseCountByOne", "Cart" )', '@cartItem.Id' );">-</button>
+                <button class="btn" onclick="onDecreaseCountByOneClick('@Url.Action("DecreaseCountByOne", "Cart" )', '@cartItem.Id' );">-</button>
             </div>
 
             
         </td>
         <td>
-            <form method="post" action="~/Cart/IncreaseCountByOne">
+            @* <form method="post" action="~/Cart/IncreaseCountByOne">
                 <input type="hidden" name="cartItemId" value="@cartItem.Id" />
                 <button type="submit">+</button>
-            </form>
+            </form> *@
+            <div>
+                @* <button id="cartItemId"class="btn" onclick="onDecreaseCountByOneClick('@Url.Action("DecreaseCountByOne", "Cart" )', '@cartItem.Id' );">-</button> *@
+                <button class="btn" onclick="onIncreaseCountByOneClick('@Url.Action("IncreaseCountByOne", "Cart" )', '@cartItem.Id' );">+</button>
+            </div>
         </td>
         <td>
             <form method="post" action="~/Cart/Delete">
