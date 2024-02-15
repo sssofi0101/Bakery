@@ -1,8 +1,6 @@
-﻿@model IEnumerable<Bakery.Models.CartItem>
-@{
+﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,33 +18,9 @@
             <td></td>
             <td></td>
         </tr>
-        @foreach (var cartItem in Model)
-        {
-            <tr>
-                <td>@cartItem.Product.Name</td>
-                <td>@cartItem.Count</td>
-                <td>@cartItem.Product.Price</td>
-                <td>@(cartItem.Product.Price * cartItem.Count)</td>
-                <td>
-                    <form method="post" action="~/Cart/DecreaseCountByOne">
-                        <input type="hidden" name="cartItemId" value="@cartItem.Id" />
-                        <button type="submit">-</button>
-                    </form>
-                </td>
-                <td>
-                    <form method="post" action="~/Cart/IncreaseCountByOne">
-                        <input type="hidden" name="cartItemId" value="@cartItem.Id" />
-                        <button type="submit">+</button>
-                    </form>
-                </td>
-                <td>
-                    <form method="post" action="~/Cart/Delete">
-                        <input type="hidden" name="cartItemId" value="@cartItem.Id" />
-                        <button type="submit">Удалить</button>
-                    </form>
-                </td>
-            </tr>
-        }
+        <div id="cartItems">
+            @Html.Partial("CartItems")
+        </div>
     </table>
     <a href="~/Home/Index">Перейти в каталог</a>
     <a href="~/Cart/Checkout">Оформить заказ</a>
