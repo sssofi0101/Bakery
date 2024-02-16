@@ -40,6 +40,8 @@ app.UseRouting();
 app.UseAuthentication();   // добавление middleware аутентификации 
 app.UseAuthorization();   // добавление middleware авторизации 
 
+app.UseStaticFiles();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
