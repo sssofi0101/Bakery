@@ -49,6 +49,7 @@ namespace Bakery.Controllers
             return new NoContentResult();
         }
 
+        [HttpPost]
         public IActionResult IncreaseCountByOne(int? cartItemId)
         {
             if (cartItemId == null)
@@ -62,11 +63,20 @@ namespace Bakery.Controllers
                 return new NoContentResult();
             }
 
+            var product = _context.Products.Where(i => i.Id == item.ProductId).FirstOrDefault();
+            if (product == null)
+            {
+                return new NoContentResult();
+            }
             item.Count++;
+            var itemCount = item.Count ;
+            var newSum = Convert.ToInt32(itemCount * product.Price);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            var json = $"{{\"cartItemId\":{cartItemId},\"itemCount\": {itemCount}, \"newSum\": {newSum}}}";
+            return Content(json);
         }
 
+        [HttpPost]
         public IActionResult DecreaseCountByOne(int? cartItemId)
         {
             if (cartItemId == null)
@@ -84,12 +94,24 @@ namespace Bakery.Controllers
             {
                 item.Count--;
                 _context.SaveChanges();
+                var product = _context.Products.Where(i => i.Id == item.ProductId).FirstOrDefault();
+                if (product == null)
+                {
+                    return new NoContentResult();
+                }
+                var itemCount = item.Count;
+                var newSum = Convert.ToInt32(itemCount * product.Price);
+                _context.SaveChanges();
+                var json = $"{{\"cartItemId\":{cartItemId},\"itemCount\": {itemCount}, \"newSum\": {newSum}}}";
+                return Content(json);
 
-                return RedirectToAction("Index");
             }
             else
             {
-                return Delete(item.Id);
+                _context.Remove(item);
+                _context.SaveChanges();
+                var json = $"{{\"cartItemId\":{cartItemId},\"itemCount\": {0}, \"newSum\": {0}}}";
+                return Content(json);
             }
         }
 

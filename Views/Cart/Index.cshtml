@@ -2,11 +2,13 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Корзина</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script asp-src-include="~/js/**/*.js" asp-append-version="true" ></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
 </head>
 <body>
     <h3>Корзина</h3>
@@ -20,24 +22,29 @@
             <td></td>
             <td></td>
         </tr>
-        @foreach (var cartItem in Model)
-        {
+        <div id="cartItems">
+            @* @await Html.PartialAsync("CartItems") *@
+            @* @Html.Partial("CartItems") *@
+            @foreach (var cartItem in Model)
+            {
+
             <tr>
                 <td>@cartItem.Product.Name</td>
-                <td>@cartItem.Count</td>
+                <td id="cartItemCount-@cartItem.Id">@cartItem.Count</td>
                 <td>@cartItem.Product.Price</td>
-                <td>@(cartItem.Product.Price * cartItem.Count)</td>
+                <td id="cartItemSum-@cartItem.Id">@(cartItem.Product.Price * cartItem.Count)</td>
                 <td>
-                    <form method="post" action="~/Cart/DecreaseCountByOne">
-                        <input type="hidden" name="cartItemId" value="@cartItem.Id" />
-                        <button type="submit">-</button>
-                    </form>
+
+                    <div>
+                        <button class="btn" onclick="onDecreaseCountByOneClick('@Url.Action("DecreaseCountByOne", "Cart" )', '@cartItem.Id' );">-</button>
+                    </div>
+
+
                 </td>
                 <td>
-                    <form method="post" action="~/Cart/IncreaseCountByOne">
-                        <input type="hidden" name="cartItemId" value="@cartItem.Id" />
-                        <button type="submit">+</button>
-                    </form>
+                    <div>
+                        <button class="btn" onclick="onIncreaseCountByOneClick('@Url.Action("IncreaseCountByOne", "Cart" )', '@cartItem.Id' );">+</button>
+                    </div>
                 </td>
                 <td>
                     <form method="post" action="~/Cart/Delete">
@@ -46,7 +53,8 @@
                     </form>
                 </td>
             </tr>
-        }
+            }
+        </div>
     </table>
     <a href="~/Home/Index">Перейти в каталог</a>
     <a href="~/Cart/Checkout">Оформить заказ</a>
